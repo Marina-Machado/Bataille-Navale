@@ -17,19 +17,21 @@ void menu(){ //fonction pour afficher le menu
 
 
 int main() {
+    SetConsoleOutputCP(CP_UTF8);
     int sousMarinMAXHEALTH = 1; //points de vie des bateaux
     int torpilleursMAXHEALTH = 2;
     int croiseursMAXHEALTH = 3;
     int cuirasseMAXHEALTH = 4;
 
+    int incremente = 0;
     int choixHorizontal;
     int choixVertical;
 
     int i;
     int j;
 
-    printf("BATAILLE NAVALE\n\n");
-    int tableauxnb [10] [10] =
+
+    int tableauxnb [10] [10] =// ce que definis ou se trouve les bateaux
             {0,0,0,0,0,0,0,0,0,0, //sous marin = 1 (1 case)
              0,0,0,4,4,4,4,0,0,0, //torpilleurs = 2 (2 cases)
              0,0,0,0,0,0,0,0,0,0, //croiseurs = 3 (3 cases)
@@ -53,30 +55,52 @@ int main() {
              '~','~','~','~','~','~','~','~','~','~',
              '~','~','~','~','~','~','~','~','~','~'};
 
+    while(1){
+     system("cls");
+      printf("BATAILLE NAVALE\n\n");
 
-    for(j = 0;j <10; j++) // boucle qui sert à afficher le tableau
-    {
-        for(i = 0; i < 10; i++){
+        for(j = 0;j <10; j++) // boucle qui sert à afficher le tableau
+        {
+            for(i = 0; i < 10; i++){
             printf("|");
+            printf("__");
             printf("%c", tableauxVisuel [j] [i]);
-            printf("_");
+
+            }
+
+            printf("\n");
 
         }
-        printf("\n");
+
+        printf(" \nNombre ratés : %d\n" ,incremente);
+
+        printf("Choisissez une case horizontalement :\n");
+        scanf("%d", &choixHorizontal);
+
+        printf("Choisissez une case verticalement :\n");
+        scanf("%d", &choixVertical);
+
+
+        if(tableauxnb[choixVertical][choixHorizontal] == 0){
+            incremente = incremente + 1;
+        }
+
+        if (tableauxnb[choixVertical][choixHorizontal] != 0) {
+            printf("touché !\n");
+            system("pause");
+
+            tableauxVisuel[choixVertical][choixHorizontal] = 'X';
+        }
+        if (tableauxnb[choixVertical][choixHorizontal] == 0) {
+            printf("raté !\n");
+            system("pause");
+
+            tableauxVisuel[choixVertical][choixHorizontal] = 'O';
+        }
+
+
+
     }
-
-
-    tableauxVisuel [j] [i] = tableauxnb [10] [10];
-
-
-    printf("Choisissez une case horizontalement :\n");
-    scanf("%d", &choixHorizontal);
-
-    printf("Choisissez une case verticalement :\n");
-    scanf("%d", &choixVertical);
-    
-
-    system("pause");
 
     return 0;
 }
