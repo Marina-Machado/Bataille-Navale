@@ -57,6 +57,7 @@ int main() {
 
     while(1){
      system("cls");
+     printf("test");
       printf("BATAILLE NAVALE\n\n");
 
         for(j = 0;j <10; j++) // boucle qui sert à afficher le tableau

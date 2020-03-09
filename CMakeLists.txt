@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(BatailleNavale C)
+project(Bataille_Navale C)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 
-add_executable(BatailleNavale main.c)
+add_executable(Bataille_Navale
+        main.c)
