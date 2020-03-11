@@ -1,3 +1,6 @@
+/*
+ * Début d'en-tête
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -90,14 +93,6 @@ int main() {
              '~','~','~','~','~','~','~','~','~','~',
              '~','~','~','~','~','~','~','~','~','~',
              '~','~','~','~','~','~','~','~','~','~'};
-
-<<<<<<< HEAD
-=======
-    while(1){
-     system("cls");
-     printf("test");
-      printf("BATAILLE NAVALE\n\n");
->>>>>>> 30ba5ff590b3a84fc42a0bbcf4f3799df01ba9b9
 
     menu();// affiche le menu
 
