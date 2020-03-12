@@ -113,7 +113,7 @@ int main() {
                 printf("**********************\n");
                 printf("***BATAILLE NAVALE****\n");
                 printf("**********************\n");
-                printf(" 1   2   3   4   5   6   7   8   9   10\n"); // les chiffres pour s'orienter pour l'horizontal
+                printf("    1   2   3   4   5   6   7   8   9  10\n"); // les chiffres pour s'orienter pour l'horizontal
                 for (int (k) = 0; (k) < 42; ++(k)) {
                     printf("=");
                 }
@@ -137,32 +137,80 @@ int main() {
                         printf("\n");
                     }
 
-                    printf(" \nNombre ratés : %d\n", incremente);
 
-                    printf("Choisissez une case horizontalement :\n");
+                    printf(" \nNombre ratés : %d\n", incremente);// affiche le nombre de ratés
+
+
+                    printf("Choisissez une case horizontalement :\n");//l'utilisateur choisis horizontalement
                     scanf("%d", &choixHorizontal);
                     choixHorizontal = choixHorizontal - 1;
 
-                    printf("Choisissez une case verticalement :\n");
+                    printf("Choisissez une case verticalement :\n"); // et puis verticalement
                     scanf("%d", &choixVertical);
                     choixVertical = choixVertical - 1;
 
-                    if (tableauxnb[choixVertical][choixHorizontal] == 0) {
+                    if(tableauxnb[choixVertical][choixHorizontal] == 0){ //condition si le tir n'a pas touché un bateau
+                        printf("raté !\n");
+                        system("pause");
+                        tableauxVisuel[choixVertical][choixHorizontal] = 'O';
+                    }
+
+                    if (tableauxnb[choixVertical][choixHorizontal] == 0) {// condition pour l'incrémentation du nombre de ratés
                         incremente = incremente + 1;
                     }
 
-                    if (tableauxnb[choixVertical][choixHorizontal] != 0) {
+                    if (tableauxnb[choixVertical][choixHorizontal] != 0){ // condition pour qu'un bateau soit touché
                         printf("touché !\n");
                         system("pause");
-
                         tableauxVisuel[choixVertical][choixHorizontal] = 'X';
                     }
-                    if (tableauxnb[choixVertical][choixHorizontal] == 0) {
-                        printf("raté !\n");
-                        system("pause");
 
-                        tableauxVisuel[choixVertical][choixHorizontal] = 'O';
+                    if(tableauxnb[choixVertical][choixHorizontal] == 4){ //condition pour que le cuirassé(4 cases) soit coulé
+                        cuirasseMAXHEALTH = cuirasseMAXHEALTH - 1;
+                        if(cuirasseMAXHEALTH == 0){
+                            printf("Coulé !\n");
+                            printf("Tu as coulé un cuirassé !\n");
+                            system("pause");
+                        }
                     }
+
+                    if(tableauxnb[choixVertical][choixHorizontal] == 3){ //condition pour que le croiseurs(3 cases) soit coulé
+                        croiseursMAXHEALTH = croiseursMAXHEALTH - 1;
+                        if(croiseursMAXHEALTH == 0){
+                            printf("Coulé !\n");
+                            printf("Tu as coulé un croiseur !\n");
+                            system("pause");
+                        }
+                    }
+
+                    if(tableauxnb[choixVertical][choixHorizontal] == 2){ //condition pour que le torpilleur (2 cases) soit coulé
+                        torpilleursMAXHEALTH = torpilleursMAXHEALTH - 1;
+                        if(torpilleursMAXHEALTH == 0){
+                            printf("Coulé !\n");
+                            printf("Tu as coulé un torpilleur !\n");
+                            system("pause");
+                        }
+                    }
+
+                if(tableauxnb[choixVertical][choixHorizontal] == 1){//condition pour que le sous-marin, (1 case) soit coulé
+                    sousMarinMAXHEALTH = sousMarinMAXHEALTH - 1;
+                    if(sousMarinMAXHEALTH == 0){
+                        printf("Coulé !\n");
+                        printf("Tu as touché un sous-marin !\n");
+                        system("pause");
+                    }
+                }
+
+                if(sousMarinMAXHEALTH == 0 && torpilleursMAXHEALTH == 0 && croiseursMAXHEALTH == 0 && cuirasseMAXHEALTH == 0){ //condtiton pour que le jeu se finisse
+                    system("cls");
+                    printf("==========VICTOIRE !==========\n\n");
+                    printf("Vous avez coulé tous les bateaux après %d coups ratés !\n", incremente);
+                    printf("Peut-être vous ferez mieux la prochaine fois !\n");
+                    system("pause");
+                    return 99;
+                }
+
+
                 }
                 break;
         case 2 : //pour afficher l'aide du jeu
