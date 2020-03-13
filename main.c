@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
-#pragma execution_character_set ("utf-8")
 
 /*Créateur : Marina Machado
  * Date : 05.03.2020
@@ -70,6 +69,7 @@ int main() {
     int l;
     int choix = 1;
 
+
     int tableauxnb [10] [10] =// ce que definis ou se trouve les bateaux
             {0,0,0,0,0,0,0,0,0,0, //sous marin = 1 (1 case)
              0,0,0,4,4,4,4,0,0,0, //torpilleurs = 2 (2 cases)
@@ -112,6 +112,7 @@ int main() {
                 system("cls");
                 printf("**********************\n");
                 printf("***BATAILLE NAVALE****\n");
+                printf("***Nombre ratés : %d**\n", incremente);// affiche le nombre de ratés
                 printf("**********************\n");
                 printf("    1   2   3   4   5   6   7   8   9  10\n"); // les chiffres pour s'orienter pour l'horizontal
                 for (int (k) = 0; (k) < 42; ++(k)) {
@@ -121,7 +122,7 @@ int main() {
                 for (j = 0; j < 10; j++) // boucle qui sert à afficher le tableau
                     {
 
-                        printf("%d", incHor);
+                        printf("%2d", incHor);
                         incHor++;
                         for (i = 0; i < 10; i++) {
                             printf(" ");
@@ -138,32 +139,51 @@ int main() {
                     }
 
 
-                    printf(" \nNombre ratés : %d\n", incremente);// affiche le nombre de ratés
-
+                    printf("Nombre de vie restant : \n");
+                    printf("sous-marin : %d     croiseur : %d     torpilleur : %d     cuirassé : %d\n", sousMarinMAXHEALTH,torpilleursMAXHEALTH, croiseursMAXHEALTH, cuirasseMAXHEALTH);
 
                     printf("Choisissez une case horizontalement :\n");//l'utilisateur choisis horizontalement
                     scanf("%d", &choixHorizontal);
                     choixHorizontal = choixHorizontal - 1;
 
+                    if(choixHorizontal > 9){
+                        printf("Choisissez un chiffre en 1 et 10");// condition si le chiffre est supérieur à 10
+                        while(choixHorizontal > 10){
+                            scanf("%d", &choixHorizontal);
+                        }
+                    }
+
                     printf("Choisissez une case verticalement :\n"); // et puis verticalement
                     scanf("%d", &choixVertical);
                     choixVertical = choixVertical - 1;
 
-                    if(tableauxnb[choixVertical][choixHorizontal] == 0){ //condition si le tir n'a pas touché un bateau
-                        printf("raté !\n");
-                        system("pause");
-                        tableauxVisuel[choixVertical][choixHorizontal] = 'O';
+                    if(choixVertical > 9){
+                        printf("Choisissez un chiffre en 1 et 10\n");// condition si le chiffre est supérieur à 10
+                        while(choixVertical > 10){
+                            scanf("%d", &choixHorizontal);
+                        }
                     }
+
+
+                    //==============================================CONDITIONS=========================================================
+
 
                     if (tableauxnb[choixVertical][choixHorizontal] == 0) {// condition pour l'incrémentation du nombre de ratés
                         incremente = incremente + 1;
                     }
 
+                    if(tableauxnb[choixVertical][choixHorizontal] == 0){ //condition si le tir n'a pas touché un bateau
+                        printf("raté !\n");
+                        system("pause");
+                        tableauxVisuel[choixVertical][choixHorizontal] = 'O';//Affichera un O si la case est raté
+                    }
+
                     if (tableauxnb[choixVertical][choixHorizontal] != 0){ // condition pour qu'un bateau soit touché
                         printf("touché !\n");
                         system("pause");
-                        tableauxVisuel[choixVertical][choixHorizontal] = 'X';
+                        tableauxVisuel[choixVertical][choixHorizontal] = 'X';//affiche un X si la case est touchée
                     }
+
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 4){ //condition pour que le cuirassé(4 cases) soit coulé
                         cuirasseMAXHEALTH = cuirasseMAXHEALTH - 1;
@@ -178,6 +198,7 @@ int main() {
                         croiseursMAXHEALTH = croiseursMAXHEALTH - 1;
                         if(croiseursMAXHEALTH == 0){
                             printf("Coulé !\n");
+                            system("COLOR 14A");
                             printf("Tu as coulé un croiseur !\n");
                             system("pause");
                         }
@@ -187,7 +208,7 @@ int main() {
                         torpilleursMAXHEALTH = torpilleursMAXHEALTH - 1;
                         if(torpilleursMAXHEALTH == 0){
                             printf("Coulé !\n");
-                            printf("Tu as coulé un torpilleur !\n");
+                            printf("\nTu as coulé un torpilleur !\n");
                             system("pause");
                         }
                     }
@@ -206,6 +227,7 @@ int main() {
                     printf("==========VICTOIRE !==========\n\n");
                     printf("Vous avez coulé tous les bateaux après %d coups ratés !\n", incremente);
                     printf("Peut-être vous ferez mieux la prochaine fois !\n");
+
                     system("pause");
                     return 99;
                 }
@@ -218,7 +240,7 @@ int main() {
                 aideJeu();
                 system("pause");
                 break;
-            case 3 :  // pour afficher le menu de scores
+            case 3 :  // pour afficher le menu de scores (en dev.)
                 system("cls");
                 printf("toujours en cours de developpement\n");
                 system("pause");
