@@ -28,6 +28,8 @@ void aideJeu(){ // Fonction pour afficher l'aide du jeu
 }
 void menu(){ //fonction pour afficher le menu
 
+    system("cls"); //permets de nettoyer l'écran
+
     printf("\t\t                                     |__\n");
     printf("\t\t                                     |\\/\n");
     printf("\t\t                                     ---\n");
@@ -51,10 +53,10 @@ void menu(){ //fonction pour afficher le menu
 
 
 int main() {
-    SetConsoleOutputCP(CP_UTF8);
 
+    SetConsoleOutputCP(CP_UTF8); //sert à afficher les accents
 
-    int sousMarinMAXHEALTH = 1; //points de vie des bateaux
+    int sousMarinMAXHEALTH = 1;         //points de vie des bateaux
     int torpilleursMAXHEALTH = 2;
     int croiseursMAXHEALTH = 3;
     int cuirasseMAXHEALTH = 4;
@@ -64,10 +66,10 @@ int main() {
     int choixHorizontal;
     int choixVertical;
 
-    int i;
+    int i;//variables pour afficher le tableau
     int j;
-    int l;
     int choix = 1;
+    int choixMenu;
 
 
     int tableauxnb [10] [10] =// ce que definis ou se trouve les bateaux
@@ -106,8 +108,10 @@ int main() {
         }
     }
 
-    switch (choix) {
-        case 1 :while (1) {
+    switch (choix)
+    {
+        case 1 :
+            while (1) {
                 incHor = 1;
                 system("cls");
                 printf("**********************\n");
@@ -128,7 +132,6 @@ int main() {
                             printf(" ");
                             printf("|");
                             printf("%c ", tableauxVisuel[j][i]);
-
                         }
 
                         printf("|\n");
@@ -168,21 +171,31 @@ int main() {
                     //==============================================CONDITIONS=========================================================
 
 
-                    if (tableauxnb[choixVertical][choixHorizontal] == 0) {// condition pour l'incrémentation du nombre de ratés
-                        incremente = incremente + 1;
+                    if(tableauxnb[choixVertical][choixHorizontal] == 9){//condition qui s'affiche si la case a déja été tirée dessus
+                        printf("Tu as déja tiré ici !\n");
+                        system("pause");
                     }
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 0){ //condition si le tir n'a pas touché un bateau
+                        incremente = incremente + 1; // pour incrémenter le nombre de tirs ratés
                         printf("raté !\n");
                         system("pause");
                         tableauxVisuel[choixVertical][choixHorizontal] = 'O';//Affichera un O si la case est raté
+                        tableauxnb[choixVertical][choixHorizontal] = 9;
                     }
 
-                    if (tableauxnb[choixVertical][choixHorizontal] != 0){ // condition pour qu'un bateau soit touché
+                    if (tableauxnb[choixVertical][choixHorizontal] != 0 && tableauxnb[choixVertical][choixHorizontal] != 9){ // condition pour qu'un bateau soit touché
                         printf("touché !\n");
                         system("pause");
                         tableauxVisuel[choixVertical][choixHorizontal] = 'X';//affiche un X si la case est touchée
+
+                        //condition ci-dessous pour changer un chiffre autre qu'un qui est attribué à un batrau en 9 pour afficher si l'utilisateur tire une 2ème fois qu'il a déja tiré ici
+                        if(tableauxnb[choixVertical][choixHorizontal] != 4 && tableauxnb[choixVertical][choixHorizontal] != 3 && tableauxnb[choixVertical][choixHorizontal] != 2 && tableauxnb[choixVertical][choixHorizontal] != 1){
+                            tableauxnb[choixVertical][choixHorizontal] = 9;
+                        }
                     }
+
+
 
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 4){ //condition pour que le cuirassé(4 cases) soit coulé
@@ -198,7 +211,6 @@ int main() {
                         croiseursMAXHEALTH = croiseursMAXHEALTH - 1;
                         if(croiseursMAXHEALTH == 0){
                             printf("Coulé !\n");
-                            system("COLOR 14A");
                             printf("Tu as coulé un croiseur !\n");
                             system("pause");
                         }
@@ -213,47 +225,54 @@ int main() {
                         }
                     }
 
-                if(tableauxnb[choixVertical][choixHorizontal] == 1){//condition pour que le sous-marin, (1 case) soit coulé
-                    sousMarinMAXHEALTH = sousMarinMAXHEALTH - 1;
-                    if(sousMarinMAXHEALTH == 0){
-                        printf("Coulé !\n");
-                        printf("Tu as touché un sous-marin !\n");
-                        system("pause");
+                    if(tableauxnb[choixVertical][choixHorizontal] == 1){//condition pour que le sous-marin, (1 case) soit coulé
+                        sousMarinMAXHEALTH = sousMarinMAXHEALTH - 1;
+                        if(sousMarinMAXHEALTH == 0){
+                            printf("Coulé !\n");
+                            printf("Tu as touché un sous-marin !\n");
+                            system("pause");
+                        }
+                    }
+
+                    if(sousMarinMAXHEALTH == 0 && torpilleursMAXHEALTH == 0 && croiseursMAXHEALTH == 0 && cuirasseMAXHEALTH == 0){ //condtiton pour que le jeu se finisse
+                        system("cls");
+                        printf("========== VICTOIRE !==========\n\n");
+                        printf("Vous avez coulé tous les bateaux après %d coups ratés !\n", incremente);
+                        printf("Peut-être vous ferez mieux la prochaine fois !\n");
+
+                        printf("Voulez-vous retourner au menu ?\n\n");
+                        printf("1. Oui    2.Non");
+
+                        scanf("%d", &choixMenu);
+
+                        switch(choixMenu){
+                            case 1: main();//renvoie au menu
+                                break;
+                            case 2: return 77;// quitte le programme
+                                break;
+                        }
                     }
                 }
-
-                if(sousMarinMAXHEALTH == 0 && torpilleursMAXHEALTH == 0 && croiseursMAXHEALTH == 0 && cuirasseMAXHEALTH == 0){ //condtiton pour que le jeu se finisse
-                    system("cls");
-                    printf("==========VICTOIRE !==========\n\n");
-                    printf("Vous avez coulé tous les bateaux après %d coups ratés !\n", incremente);
-                    printf("Peut-être vous ferez mieux la prochaine fois !\n");
-
-                    system("pause");
-                    return 99;
-                }
-
-
-                }
                 break;
-        case 2 : //pour afficher l'aide du jeu
+            case 2 : //pour afficher l'aide du jeu
                 system("cls");
                 aideJeu();
                 system("pause");
+                main();
                 break;
             case 3 :  // pour afficher le menu de scores (en dev.)
                 system("cls");
                 printf("toujours en cours de developpement\n");
                 system("pause");
-                break;
+                main();
+            break;
             case 4 :
                 return 6; //permets de quitter le programme
                 break;
             default: printf("Choisi un des numéros écris-ci dessus\n");
                     system("pause");
                 break;
-        }
-
-
+    }
 
     return 0;
 }
