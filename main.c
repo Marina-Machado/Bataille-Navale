@@ -55,6 +55,7 @@ void menu(){ //fonction pour afficher le menu
 int main() {
 
     SetConsoleOutputCP(CP_UTF8); //sert à afficher les accents
+    system("color 01");
 
     int sousMarinMAXHEALTH = 1;         //points de vie des bateaux
     int torpilleursMAXHEALTH = 2;
@@ -114,20 +115,21 @@ int main() {
             while (1) {
                 incHor = 1;
                 system("cls");
-                printf("**********************\n");
-                printf("***BATAILLE NAVALE****\n");
-                printf("***Nombre ratés : %d**\n", incremente);// affiche le nombre de ratés
-                printf("**********************\n");
+                printf("\t**********************\n");
+                printf("\t***BATAILLE NAVALE****\n");
+                printf("\t***Nombre ratés : %d**\n", incremente);// affiche le nombre de ratés
+                printf("\t**********************\n");
                 printf("    1   2   3   4   5   6   7   8   9  10\n"); // les chiffres pour s'orienter pour l'horizontal
-                for (int (k) = 0; (k) < 42; ++(k)) {
+                printf("   ");
+                for (int (k) = 0; (k) < 40; ++(k)) {
                     printf("=");
                 }
                 printf("\n");
                 for (j = 0; j < 10; j++) // boucle qui sert à afficher le tableau
                     {
 
-                        printf("%2d", incHor);
-                        incHor++;
+                        printf("%2d", incHor);//affiche les numéros à coté du tableau au sens vertical
+                        incHor++;//les incrémente
                         for (i = 0; i < 10; i++) {
                             printf(" ");
                             printf("|");
@@ -135,41 +137,39 @@ int main() {
                         }
 
                         printf("|\n");
-                        for (int (k) = 0; (k) < 42; ++(k)) {
+                        printf("   ");
+                        for (int (k) = 0; (k) < 40; ++(k)) {
                             printf("=");
                         }
                         printf("\n");
                     }
 
-
                     printf("Nombre de vie restant : \n");
-                    printf("sous-marin : %d     croiseur : %d     torpilleur : %d     cuirassé : %d\n", sousMarinMAXHEALTH,torpilleursMAXHEALTH, croiseursMAXHEALTH, cuirasseMAXHEALTH);
+                    printf("sous-marin : %d     torpilleur : %d     croiseur : %d     cuirassé : %d\n", sousMarinMAXHEALTH,torpilleursMAXHEALTH, croiseursMAXHEALTH, cuirasseMAXHEALTH);
 
                     printf("Choisissez une case horizontalement :\n");//l'utilisateur choisis horizontalement
                     scanf("%d", &choixHorizontal);
-                    choixHorizontal = choixHorizontal - 1;
 
-                    if(choixHorizontal > 9){
-                        printf("Choisissez un chiffre en 1 et 10");// condition si le chiffre est supérieur à 10
+                    if(choixHorizontal > 10){//Condition si le numéro choisi est plus grand que 10, si il est plus grand il va générer une boucle
+                        printf("Choisissez un autre chiffre : ");
                         while(choixHorizontal > 10){
-                            scanf("%d", &choixHorizontal);
-                        }
+                        scanf("%d", &choixHorizontal);}
+
                     }
+                    choixHorizontal = choixHorizontal - 1;
 
                     printf("Choisissez une case verticalement :\n"); // et puis verticalement
                     scanf("%d", &choixVertical);
+
+                    if(choixVertical > 10){ //Condition si le numéro choisi est plus grand que 10, si il est plus grand il va générer une boucle
+                        printf("Choisissez un autre chiffre : ");
+                        while(choixVertical > 10){
+                            scanf("%d", &choixVertical);}
+
+                    }
                     choixVertical = choixVertical - 1;
 
-                    if(choixVertical > 9){
-                        printf("Choisissez un chiffre en 1 et 10\n");// condition si le chiffre est supérieur à 10
-                        while(choixVertical > 10){
-                            scanf("%d", &choixHorizontal);
-                        }
-                    }
-
-
                     //==============================================CONDITIONS=========================================================
-
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 9){//condition qui s'affiche si la case a déja été tirée dessus
                         printf("Tu as déja tiré ici !\n");
@@ -194,9 +194,6 @@ int main() {
                             tableauxnb[choixVertical][choixHorizontal] = 9;
                         }
                     }
-
-
-
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 4){ //condition pour que le cuirassé(4 cases) soit coulé
                         cuirasseMAXHEALTH = cuirasseMAXHEALTH - 1;
@@ -236,12 +233,12 @@ int main() {
 
                     if(sousMarinMAXHEALTH == 0 && torpilleursMAXHEALTH == 0 && croiseursMAXHEALTH == 0 && cuirasseMAXHEALTH == 0){ //condtiton pour que le jeu se finisse
                         system("cls");
-                        printf("========== VICTOIRE !==========\n\n");
+                        printf("\t========== VICTOIRE !==========\n\n");
                         printf("Vous avez coulé tous les bateaux après %d coups ratés !\n", incremente);
-                        printf("Peut-être vous ferez mieux la prochaine fois !\n");
+                        printf("Peut-être vous ferez mieux la prochaine fois !\n\n");
 
-                        printf("Voulez-vous retourner au menu ?\n\n");
-                        printf("1. Oui    2.Non");
+                        printf("\tVoulez-vous retourner au menu ?\n\n");
+                        printf("\t1. Oui    2.Non");
 
                         scanf("%d", &choixMenu);
 
@@ -269,7 +266,7 @@ int main() {
             case 4 :
                 return 6; //permets de quitter le programme
                 break;
-            default: printf("Choisi un des numéros écris-ci dessus\n");
+            default: printf("Choisi un des numéros écris-ci dessus\n");//message qui s'affiche si on choisis un autre numéro que ceux montrés en haut
                     system("pause");
                 break;
     }
