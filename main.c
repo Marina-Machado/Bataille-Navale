@@ -72,6 +72,9 @@ int main() {
     int choix = 1;
     int choixMenu;
 
+    int choixNom;
+    char nomUtilisateur [20];
+
 
     int tableauxnb [10] [10] =// ce que definis ou se trouve les bateaux
             {0,0,0,0,0,0,0,0,0,0, //sous marin = 1 (1 case)
@@ -113,10 +116,30 @@ int main() {
     {
         case 1 :
             while (1) {
+                system("cls");
+                printf("Voulez vous entrer un nom d'utilisateur ?\n\n");
+                printf("1. Oui\n");
+                printf("2. Non\n");
+
+                scanf("%d", &choixNom);
+                switch(choixNom){
+                    case 1:
+                        printf("Quel est ton nom d'utilisateur ?\n");
+                        printf("-> ");
+                        scanf("%s", nomUtilisateur);
+                        printf("%s c'est bien ça ?\n", nomUtilisateur);
+                        break;
+                    case 2:
+                        break;
+                }
+
+
                 incHor = 1;
+                system("pause");
                 system("cls");
                 printf("\t**********************\n");
                 printf("\t***BATAILLE NAVALE****\n");
+                printf("\t***Joueur : %s ***\n", nomUtilisateur);
                 printf("\t***Nombre ratés : %d**\n", incremente);// affiche le nombre de ratés
                 printf("\t**********************\n");
                 printf("    1   2   3   4   5   6   7   8   9  10\n"); // les chiffres pour s'orienter pour l'horizontal
@@ -234,7 +257,7 @@ int main() {
                     if(sousMarinMAXHEALTH == 0 && torpilleursMAXHEALTH == 0 && croiseursMAXHEALTH == 0 && cuirasseMAXHEALTH == 0){ //condtiton pour que le jeu se finisse
                         system("cls");
                         printf("\t========== VICTOIRE !==========\n\n");
-                        printf("Vous avez coulé tous les bateaux après %d coups ratés !\n", incremente);
+                        printf("Bravo %s ! Vous avez coulé tous les bateaux après %d coups ratés !\n", nomUtilisateur,incremente);
                         printf("Peut-être vous ferez mieux la prochaine fois !\n\n");
 
                         printf("\tVoulez-vous retourner au menu ?\n\n");
