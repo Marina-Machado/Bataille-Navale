@@ -11,6 +11,28 @@
  * Version :0.1
  */
 
+void creationFichier(char username [20], int nbTirs){
+    FILE *fPointer;//pointeur pour un fichier
+    fPointer = fopen("Score/test.txt", "a");//va créer le fichier dans le dossier "Score"
+    fprintf(fPointer, "Nom Joueur : %s  Nombre de tirs ratés : %d\n", username, nbTirs);
+
+    fclose(fPointer);//sert a le fermer
+}
+
+void score(){//Fonction pour afficher le tableau des scores
+    system("color 0E");
+    printf("\t==========Tableaux des scores==========\n\n");
+    FILE *fPointer;
+    fPointer = fopen("Score/test.txt", "r");
+
+    char singleLine[150];
+
+    while(fgets(singleLine, 150, fPointer)){//boucle qui sert à lire ce qu'il y a dans le fichier jusqu'a la fin de celui-ci
+        puts(singleLine);// ce qui va permettre d'afficher les lignes
+    }
+    fclose(fPointer);
+
+}
 void aideJeu(){ // Fonction pour afficher l'aide du jeu
     printf("\tAIDE DU JEU\n");
     printf("============================\n\n");
@@ -71,6 +93,7 @@ int main() {
     int j;
     int choix = 1;
     int choixMenu;
+    int choixScore;
 
     int choixNom;
     char nomUtilisateur [20];
@@ -115,27 +138,26 @@ int main() {
     switch (choix)
     {
         case 1 :
-            while (1) {
-                system("cls");
-                printf("Voulez vous entrer un nom d'utilisateur ?\n\n");
-                printf("1. Oui\n");
-                printf("2. Non\n");
+            system("cls");
+            printf("Voulez vous entrer un nom d'utilisateur ?\n\n");
+            printf("1. Oui\n");
+            printf("2. Non\n");
 
-                scanf("%d", &choixNom);
-                switch(choixNom){
-                    case 1:
-                        printf("Quel est ton nom d'utilisateur ?\n");
-                        printf("-> ");
-                        scanf("%s", nomUtilisateur);
-                        printf("%s c'est bien ça ?\n", nomUtilisateur);
-                        break;
-                    case 2:
-                        break;
-                }
-
+            scanf("%d", &choixNom);
+            switch(choixNom){
+                case 1:
+                    printf("Quel est ton nom d'utilisateur ?\n");
+                    printf("-> ");
+                    scanf("%s", nomUtilisateur);
+                    printf("%s c'est bien ça ?\n", nomUtilisateur);
+                    break;
+                case 2:
+                    break;
+            }
+            while (1)
+            {
 
                 incHor = 1;
-                system("pause");
                 system("cls");
                 printf("\t**********************\n");
                 printf("\t***BATAILLE NAVALE****\n");
@@ -195,6 +217,7 @@ int main() {
                     //==============================================CONDITIONS=========================================================
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 9){//condition qui s'affiche si la case a déja été tirée dessus
+
                         printf("Tu as déja tiré ici !\n");
                         system("pause");
                     }
@@ -212,10 +235,11 @@ int main() {
                         system("pause");
                         tableauxVisuel[choixVertical][choixHorizontal] = 'X';//affiche un X si la case est touchée
 
-                        //condition ci-dessous pour changer un chiffre autre qu'un qui est attribué à un batrau en 9 pour afficher si l'utilisateur tire une 2ème fois qu'il a déja tiré ici
+                        //condition ci-dessous pour changer un chiffre autre qu'un qui est attribué à un bateau en 9 pour afficher si l'utilisateur tire une 2ème fois qu'il a déja tiré ici
                         if(tableauxnb[choixVertical][choixHorizontal] != 4 && tableauxnb[choixVertical][choixHorizontal] != 3 && tableauxnb[choixVertical][choixHorizontal] != 2 && tableauxnb[choixVertical][choixHorizontal] != 1){
                             tableauxnb[choixVertical][choixHorizontal] = 9;
                         }
+
                     }
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 4){ //condition pour que le cuirassé(4 cases) soit coulé
@@ -225,6 +249,7 @@ int main() {
                             printf("Tu as coulé un cuirassé !\n");
                             system("pause");
                         }
+                        tableauxnb[choixVertical][choixHorizontal] = 9;// change la case du bateau pour dire que la case est touchée
                     }
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 3){ //condition pour que le croiseurs(3 cases) soit coulé
@@ -234,6 +259,7 @@ int main() {
                             printf("Tu as coulé un croiseur !\n");
                             system("pause");
                         }
+                        tableauxnb[choixVertical][choixHorizontal] = 9;
                     }
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 2){ //condition pour que le torpilleur (2 cases) soit coulé
@@ -243,15 +269,18 @@ int main() {
                             printf("\nTu as coulé un torpilleur !\n");
                             system("pause");
                         }
+                        tableauxnb[choixVertical][choixHorizontal] = 9;
                     }
 
                     if(tableauxnb[choixVertical][choixHorizontal] == 1){//condition pour que le sous-marin, (1 case) soit coulé
                         sousMarinMAXHEALTH = sousMarinMAXHEALTH - 1;
+
                         if(sousMarinMAXHEALTH == 0){
                             printf("Coulé !\n");
                             printf("Tu as touché un sous-marin !\n");
                             system("pause");
                         }
+                        tableauxnb[choixVertical][choixHorizontal] = 9;
                     }
 
                     if(sousMarinMAXHEALTH == 0 && torpilleursMAXHEALTH == 0 && croiseursMAXHEALTH == 0 && cuirasseMAXHEALTH == 0){ //condtiton pour que le jeu se finisse
@@ -260,20 +289,35 @@ int main() {
                         printf("Bravo %s ! Vous avez coulé tous les bateaux après %d coups ratés !\n", nomUtilisateur,incremente);
                         printf("Peut-être vous ferez mieux la prochaine fois !\n\n");
 
-                        printf("\tVoulez-vous retourner au menu ?\n\n");
-                        printf("\t1. Oui    2.Non");
+                        printf("\tVoulez-vous afficher votre score dans le tableau des scores ?\n\n");
+                        printf("\t1. Oui    2.Non, revenir au menu     3.Quitter le programme");
 
-                        scanf("%d", &choixMenu);
+                        scanf("%d", &choixScore);
 
-                        switch(choixMenu){
-                            case 1: main();//renvoie au menu
+                        // Pour cette partie j'aurais préféré faire un switch mais un bug bizarre ne m'a pas permis de faire cela. Cels faisait une boucle infinie constamment qui
+                        //redirigeait le joueur a la partie deja finie
+                       if (choixScore == 1){
+                                system("cls");
+                                creationFichier(nomUtilisateur, incremente);
+                                score();
+                                system("pause");
+                                main();
                                 break;
-                            case 2: return 77;// quitte le programme
-                                break;
-                        }
+                       }
+                       if (choixScore == 2) {
+                           system("cls");
+                           main();//renvoie au menu
+                           break;
+                       }
+                       if (choixScore == 2) {
+                           return 6; // quitte le programme
+                       }
+
+
                     }
                 }
                 break;
+
             case 2 : //pour afficher l'aide du jeu
                 system("cls");
                 aideJeu();
@@ -282,11 +326,12 @@ int main() {
                 break;
             case 3 :  // pour afficher le menu de scores (en dev.)
                 system("cls");
-                printf("toujours en cours de developpement\n");
+                score();
                 system("pause");
                 main();
             break;
             case 4 :
+                system("exit");
                 return 6; //permets de quitter le programme
                 break;
             default: printf("Choisi un des numéros écris-ci dessus\n");//message qui s'affiche si on choisis un autre numéro que ceux montrés en haut
