@@ -12,9 +12,11 @@
  */
 
 void creationFichier(char username [20], int nbTirs){
+    
     FILE *fPointer;//pointeur pour un fichier
-    fPointer = fopen("Score/test.txt", "a");//va créer le fichier dans le dossier "Score"
-    fprintf(fPointer, "Nom Joueur : %s  Nombre de tirs ratés : %d\n", username, nbTirs);
+    fPointer = fopen("Score/score.txt", "a");
+
+    fprintf(fPointer, "Nom Joueur : %s  Nombre de tirs ratés : %d\n", username, nbTirs);//Le tableau des scores affichera ça
 
     fclose(fPointer);//sert a le fermer
 }
@@ -23,12 +25,12 @@ void score(){//Fonction pour afficher le tableau des scores
     system("color 0E");
     printf("\t==========Tableaux des scores==========\n\n");
     FILE *fPointer;
-    fPointer = fopen("Score/test.txt", "r");
+    fPointer = fopen("Score/score.txt", "r");
 
-    char singleLine[150];
+    char affichageScore[150];
 
-    while(fgets(singleLine, 150, fPointer)){//boucle qui sert à lire ce qu'il y a dans le fichier jusqu'a la fin de celui-ci
-        puts(singleLine);// ce qui va permettre d'afficher les lignes
+    while(fgets(affichageScore, 150, fPointer)){//boucle qui sert à lire ce qu'il y a dans le fichier jusqu'a la fin de celui-ci
+        puts(affichageScore);// ce qui va permettre d'afficher les lignes
     }
     fclose(fPointer);
 
