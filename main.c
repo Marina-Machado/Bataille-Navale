@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
+
 
 /*Créateur : Marina Machado
  * Date : 05.03.2020
@@ -19,6 +21,135 @@ void creationFichier(char username [20], int nbTirs){
     fprintf(fPointer, "Nom Joueur : %s  Nombre de tirs ratés : %d\n", username, nbTirs);//Le tableau des scores affichera ça
 
     fclose(fPointer);//sert a le fermer
+}
+void grilleAleatoire(int tableau[10] [10]){
+    srand(time(NULL));//randomisation
+
+    int caseEau = 90;// celle ci les cases d'eaux
+    int chiffreRandom = 0; // va permettre d'afficher les chiffres aléatoires
+
+    //les variables des bateaux en dessous indiquera si les bateaux seront complets ou pas c'est à dire s'ils ont été coulé
+    int sousMarinPlace = 0;
+    int torpilleurPlace = 0;
+    int croiseurPlace = 0;
+    int cuirassePlace = 0;
+
+    int i;//va définir les lignes
+    int j;//va définir les colonnes
+    for(i = 0;i < 10; i++){
+        for(j = 0; j < 10; j++){
+            tableau[i] [j] = 0;
+        }
+    }
+
+    for(i = 0;i < 10; i++){//ligne
+
+        for(j = 0;j < 10; j++){//colonne
+            chiffreRandom = rand()%20;
+            switch(chiffreRandom)
+            {
+                //========= case d'eau !==========
+                //les cases de 0 à 20 ci dessous sont pour définir les cases d'eau
+                case 0:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                    if(caseEau > 0)//condition pour que les cases en dessus soient égal à 0
+                    {
+                        tableau[i][j] = 0;
+                        caseEau = caseEau - 1;
+                    }
+                    break;
+
+                case 1: // SOUS-MARIN
+                        if(sousMarinPlace == 0)//condition qui va se faire tant que le sous-marin(1 case) n'est pas complet
+                        {
+                            tableau[i][j] = 1;//affiche qu'il est touché
+                            sousMarinPlace = 1;
+                            j = j + 1;//indique juste au programme qu'il faut contourner cet endroit vu qu'il est touché
+                        }
+                        else{//si le bateau est complet (toutes les cases tirées dessus), ça va compter pour une case d'eau
+                            tableau[i][j] = 0;
+                            caseEau = caseEau - 1;//enlève moins un au cases d'eaux totaux
+                        }
+
+                    break;
+                case 2://TORPILLEUR
+                    if(torpilleurPlace == 0 && j < 9)
+                    {
+
+                       tableau[i] [j] = 2;
+                       tableau[i] [j+1] = 2;// va rajouter plus un sur j pour que la prochaine case soit un 2
+                       torpilleurPlace = 1;
+                       j = j + 2;
+
+                    }
+
+                    else{
+                        tableau[i][j] = 0;
+                        caseEau = caseEau - 1;
+                    }
+                    break;
+                case 3:
+                    if(croiseurPlace == 0 && j < 8)
+                    {
+
+                        tableau[i] [j] = 3;
+                        tableau[i] [j+1] = 3;// va rajouter plus un sur j pour que la prochaine case soit un 3
+                        tableau[i] [j+2] = 3;//ainsi qu'ici
+
+                        croiseurPlace = 1;
+                        j = j + 3;
+
+                    }
+                    else{
+                        tableau[i][j] = 0;
+                        caseEau = caseEau - 1;
+                    }
+                    break;
+                case 4:
+                    if(cuirassePlace == 0 && j < 7)
+                    {
+
+                        tableau[i] [j] = 4;
+
+                        tableau[i] [j+1] = 4;
+                        tableau[i] [j+2] = 4;
+                        tableau[i] [j+3] = 4;
+
+                        cuirassePlace = 1;
+                        j = j + 4;
+                    }
+                    else{
+                        tableau[i][j] = 0;
+                        caseEau = caseEau - 1;
+                    }
+                    break;
+
+
+
+            }
+
+
+
+        }
+        j = 0;// renitialise j pour commencer une nouvelle colonne
+    }
+
+
 }
 
 void score(){//Fonction pour afficher le tableau des scores
@@ -73,6 +204,8 @@ void menu(){ //fonction pour afficher le menu
     printf("2.Aide du jeu\n");
     printf("3.Scores\n");
     printf("4.Quitter\n");
+    printf("5.Jouer avec grille aléatoire\n");
+
 }
 
 
@@ -96,6 +229,7 @@ int main() {
     int choix = 1;
     int choixMenu;
     int choixScore;
+    int choixRandom;
 
     int choixNom;
     char nomUtilisateur [20];
@@ -127,20 +261,37 @@ int main() {
 
     menu();// affiche le menu
 
+
     scanf("%d", &choix); //choix pour le switch plus bas qui va pouvoir rediriger l'utilisateur selon les choix du menu
 
 
-    if(choix < 0 || choix > 4){
+    if(choix < 0 || choix > 5){
         printf("\nchoisi un des numéros affichés ci-dessus");
-        while(choix > 4){
+        while(choix > 5){
             scanf("%d", &choix);
         }
     }
 
-    switch (choix)
-    {
+    switch (choix){
+
         case 1 :
             system("cls");
+            printf("Voulez-vous jouer avec une grille choisie aléatoirement ?\n");
+            printf("1. Oui\n");
+            printf("2.Non");
+
+            scanf("%d", &choixRandom);
+            switch(choixRandom){
+                case 1 : grilleAleatoire(tableauxnb);
+                    for(i = 0; i < 10; i++){
+                        for(j = 0; j < 10;j++){
+                            printf("%d", tableauxnb [i] [j]);
+                        }
+                        printf("\n");
+                    }
+                    break;
+            }
+
             printf("Voulez vous entrer un nom d'utilisateur ?\n\n");
             printf("1. Oui\n");
             printf("2. Non\n");
@@ -152,6 +303,7 @@ int main() {
                     printf("-> ");
                     scanf("%s", nomUtilisateur);
                     printf("%s c'est bien ça ?\n", nomUtilisateur);
+                    system("pause");
                     break;
                 case 2:
                     break;
@@ -336,6 +488,7 @@ int main() {
                 system("exit");
                 return 6; //permets de quitter le programme
                 break;
+
             default: printf("Choisi un des numéros écris-ci dessus\n");//message qui s'affiche si on choisis un autre numéro que ceux montrés en haut
                     system("pause");
                 break;
