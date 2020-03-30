@@ -204,7 +204,6 @@ void menu(){ //fonction pour afficher le menu
     printf("2.Aide du jeu\n");
     printf("3.Scores\n");
     printf("4.Quitter\n");
-    printf("5.Jouer avec grille aléatoire\n");
 
 }
 
@@ -283,12 +282,6 @@ int main() {
             scanf("%d", &choixRandom);
             switch(choixRandom){
                 case 1 : grilleAleatoire(tableauxnb);
-                    for(i = 0; i < 10; i++){
-                        for(j = 0; j < 10;j++){
-                            printf("%d", tableauxnb [i] [j]);
-                        }
-                        printf("\n");
-                    }
                     break;
             }
 
