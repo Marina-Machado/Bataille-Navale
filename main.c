@@ -345,7 +345,8 @@ int main() {
                     if(choixHorizontal > 10){//Condition si le numéro choisi est plus grand que 10, si il est plus grand il va générer une boucle
                         printf("Choisissez un autre chiffre : ");
                         while(choixHorizontal > 10){
-                        scanf("%d", &choixHorizontal);}
+                            scanf("%d", &choixHorizontal);
+                        }
 
                     }
                     choixHorizontal = choixHorizontal - 1;
